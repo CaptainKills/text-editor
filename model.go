@@ -44,14 +44,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "j", "down":
 			m.cursor.row = min(m.cursor.row+1, len(m.buffer)-1)
-			// TODO: Add column update
+			m.cursor.column = min(m.cursor.column, max(0, len(m.buffer[m.cursor.row])-1))
 
 		case "k", "up":
 			m.cursor.row = max(m.cursor.row-1, 0)
-			// TODO: Add column update
+			m.cursor.column = min(m.cursor.column, max(0, len(m.buffer)-1))
 
 		case "l", "right":
-			m.cursor.column = min(m.cursor.column+1, len(m.buffer[m.cursor.row]))
+			m.cursor.column = min(m.cursor.column+1, max(0, len(m.buffer[m.cursor.row])-1))
 
 		default:
 			m.command += msg.String()
