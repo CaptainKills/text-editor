@@ -8,32 +8,32 @@ import (
 
 func RenderCode(m Model) string {
 	code_pre := renderPreCode(m)
-	code_highlight := renderSelectedLine(m.buffer[m.cursor.row])
+	code_selected := renderSelectedLine(m.buffer[m.cursor.row], m.cursor.column)
 	code_post := renderPostCode(m)
 
-	var code string
+	var ui string
 	if code_pre == "" {
-		code = lipgloss.JoinVertical(
+		ui = lipgloss.JoinVertical(
 			lipgloss.Top,
-			CodeHighlightStyle.Render(code_highlight),
+			CodeHighlightStyle.Render(code_selected),
 			CodeStyle.Render(code_post),
 		)
 	} else if code_post == "" {
-		code = lipgloss.JoinVertical(
+		ui = lipgloss.JoinVertical(
 			lipgloss.Top,
 			CodeStyle.Render(code_pre),
-			CodeHighlightStyle.Render(code_highlight),
+			CodeHighlightStyle.Render(code_selected),
 		)
 	} else {
-		code = lipgloss.JoinVertical(
+		ui = lipgloss.JoinVertical(
 			lipgloss.Top,
 			CodeStyle.Render(code_pre),
-			CodeHighlightStyle.Render(code_highlight),
+			CodeHighlightStyle.Render(code_selected),
 			CodeStyle.Render(code_post),
 		)
 	}
 
-	return code
+	return ui
 }
 
 func renderPreCode(m Model) string {
@@ -49,12 +49,25 @@ func renderPreCode(m Model) string {
 	return code.String()
 }
 
-func renderSelectedLine(line string) string {
-	code := strings.Builder{}
+func renderSelectedLine(line string, index int) string {
+	code_pre := ""
+	code_selected := " "
+	code_post := ""
 
-	code.WriteString(line)
+	if len(line) != 0 {
+		code_pre = line[:index]
+		code_selected = string(line[min(index, max(0, len(line)-1))])
+		code_post = line[min(index+1, len(line)):]
+	}
 
-	return code.String()
+	ui := lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		CodeStyle.Render(code_pre),
+		CodeHighlightStyle.Render(code_selected),
+		CodeStyle.UnsetPaddingLeft().Render(code_post),
+	)
+
+	return ui
 }
 
 func renderPostCode(m Model) string {
