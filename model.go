@@ -5,11 +5,6 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-type Cursor struct {
-	row    int
-	column int
-}
-
 type Model struct {
 	fileName string
 	buffer   []string
@@ -40,18 +35,16 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.command = ""
 
 		case "h", "left":
-			m.cursor.column = max(m.cursor.column-1, 0)
+			m.cursor.MoveLeft(m.buffer)
 
 		case "j", "down":
-			m.cursor.row = min(m.cursor.row+1, len(m.buffer)-1)
-			m.cursor.column = min(m.cursor.column, max(0, len(m.buffer[m.cursor.row])-1))
+			m.cursor.MoveDown(m.buffer)
 
 		case "k", "up":
-			m.cursor.row = max(m.cursor.row-1, 0)
-			m.cursor.column = min(m.cursor.column, max(0, len(m.buffer)-1))
+			m.cursor.MoveUp(m.buffer)
 
 		case "l", "right":
-			m.cursor.column = min(m.cursor.column+1, max(0, len(m.buffer[m.cursor.row])-1))
+			m.cursor.MoveRight(m.buffer)
 
 		default:
 			m.command += msg.String()
