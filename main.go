@@ -9,8 +9,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-var Log *os.File
-
 func readFile(fileName string) ([]string, error) {
 	inputFile, err := os.Open(fileName)
 	if err != nil {
@@ -32,23 +30,21 @@ func readFile(fileName string) ([]string, error) {
 }
 
 func main() {
-	path := "example.txt"
+	path := "main.go"
 
 	lines, err := readFile(path)
 	if err != nil {
 		log.Fatalf("Could not read file: %v\n", err)
 	}
 
-	m := Model{fileName: path, buffer: lines}
-
 	f, err := tea.LogToFile("debug.log", "debug")
 	if err != nil {
 		fmt.Println("fatal:", err)
 		os.Exit(1)
 	}
-
-	Log = f
 	defer f.Close()
+
+	m := Model{fileName: path, buffer: lines, log: f}
 
 	p := tea.NewProgram(m, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
