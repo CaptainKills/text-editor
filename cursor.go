@@ -6,6 +6,12 @@ type Cursor struct {
 }
 
 func (c *Cursor) MoveUp(buffer []string) {
+	if len(buffer) == 0 {
+		c.row = 0
+		c.column = 0
+		return
+	}
+
 	// Update Row
 	min_row_index := 0
 	next_row_index := c.row - 1
@@ -20,6 +26,12 @@ func (c *Cursor) MoveUp(buffer []string) {
 }
 
 func (c *Cursor) MoveDown(buffer []string) {
+	if len(buffer) == 0 {
+		c.row = 0
+		c.column = 0
+		return
+	}
+
 	// Update Row
 	max_row_index := len(buffer) - 1
 	next_row_index := c.row + 1
@@ -34,6 +46,12 @@ func (c *Cursor) MoveDown(buffer []string) {
 }
 
 func (c *Cursor) MoveLeft(buffer []string) {
+	if len(buffer) == 0 {
+		c.row = 0
+		c.column = 0
+		return
+	}
+
 	// Update Column
 	min_index := 0
 	next_index := c.column - 1
@@ -42,6 +60,12 @@ func (c *Cursor) MoveLeft(buffer []string) {
 }
 
 func (c *Cursor) MoveRight(buffer []string) {
+	if len(buffer) == 0 {
+		c.row = 0
+		c.column = 0
+		return
+	}
+
 	// Update Column
 	max_index := max(0, len(buffer[c.row])-1)
 	next_index := c.column + 1

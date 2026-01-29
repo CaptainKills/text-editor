@@ -11,7 +11,7 @@ var text = []string{
 	"This is the last line of text.",
 }
 
-func TestMoveUp(t *testing.T) {
+func TestCursorMoveUp(t *testing.T) {
 	t.Run("Row Available", func(t *testing.T) {
 		c := Cursor{row: 1, column: 0}
 		c.MoveUp(text)
@@ -76,7 +76,7 @@ func TestMoveUp(t *testing.T) {
 	})
 }
 
-func TestMoveDown(t *testing.T) {
+func TestCursorMoveDown(t *testing.T) {
 	t.Run("Row Available", func(t *testing.T) {
 		c := Cursor{row: 0, column: 0}
 		c.MoveDown(text)
@@ -141,7 +141,7 @@ func TestMoveDown(t *testing.T) {
 	})
 }
 
-func TestMoveLeft(t *testing.T) {
+func TestCursorMoveLeft(t *testing.T) {
 	t.Run("Column Available", func(t *testing.T) {
 		c := Cursor{row: 0, column: 5}
 		c.MoveLeft(text)
@@ -180,7 +180,7 @@ func TestMoveLeft(t *testing.T) {
 	})
 }
 
-func TestMoveRight(t *testing.T) {
+func TestCursorMoveRight(t *testing.T) {
 	t.Run("Column Available", func(t *testing.T) {
 		c := Cursor{row: 0, column: 5}
 		c.MoveRight(text)
@@ -215,6 +215,54 @@ func TestMoveRight(t *testing.T) {
 
 		if c.column != want.column {
 			t.Errorf("Cursor column is not satured to 0! got %v, want %v\n", c.column, want.column)
+		}
+	})
+}
+
+func TestCursorEmptyFile(t *testing.T) {
+	text := []string{} // Simulate empty file
+
+	t.Run("Move Up", func(t *testing.T) {
+		c := Cursor{row: 0, column: 0}
+		c.MoveUp(text)
+
+		want := Cursor{row: 0, column: 0}
+
+		if c != want {
+			t.Errorf("Cursor is unintentionally moving! got %v, want %v\n", c, want)
+		}
+	})
+
+	t.Run("Move Down", func(t *testing.T) {
+		c := Cursor{row: 0, column: 0}
+		c.MoveDown(text)
+
+		want := Cursor{row: 0, column: 0}
+
+		if c != want {
+			t.Errorf("Cursor is unintentionally moving! got %v, want %v\n", c, want)
+		}
+	})
+
+	t.Run("Move Left", func(t *testing.T) {
+		c := Cursor{row: 0, column: 0}
+		c.MoveLeft(text)
+
+		want := Cursor{row: 0, column: 0}
+
+		if c != want {
+			t.Errorf("Cursor is unintentionally moving! got %v, want %v\n", c, want)
+		}
+	})
+
+	t.Run("Move Right", func(t *testing.T) {
+		c := Cursor{row: 0, column: 0}
+		c.MoveRight(text)
+
+		want := Cursor{row: 0, column: 0}
+
+		if c != want {
+			t.Errorf("Cursor is unintentionally moving! got %v, want %v\n", c, want)
 		}
 	})
 }
