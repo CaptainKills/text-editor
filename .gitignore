@@ -26,3 +26,4 @@ go.work.sum
 
 # Debug file
 *.log
+*.txt
