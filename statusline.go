@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 )
@@ -17,7 +18,7 @@ func RenderStatusLine(m Model) string {
 		StatusLineStyle.Render("\t"),
 		StatusLineStyle.Render(filepath),
 		StatusLineStyle.Render("\t"),
-		StatusLineStyle.Render(cursor),
+		cursor,
 	)
 
 	return ui
@@ -52,5 +53,25 @@ func renderFilePath(m Model) string {
 }
 
 func renderCursor(m Model) string {
-	return fmt.Sprintf("%d:%d", m.cursor.row, m.cursor.column)
+	status := strings.Builder{}
+	status.WriteString(strconv.Itoa(m.cursor.row))
+	status.WriteString(":")
+	status.WriteString(strconv.Itoa(m.cursor.column))
+
+	var cursor string
+
+	switch m.mode {
+	case Normal:
+		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
+	case Insert:
+		cursor = InsertModeStyle.Width(len(status.String()) + 2).Render(status.String())
+	case Command:
+		cursor = CommandModeStyle.Width(len(status.String()) + 2).Render(status.String())
+	case Visual:
+		cursor = VisualModelStyle.Width(len(status.String()) + 2).Render(status.String())
+	default:
+		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
+	}
+
+	return cursor
 }
