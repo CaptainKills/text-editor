@@ -27,15 +27,15 @@ func renderMode(m Model) string {
 	text := ModeString[m.mode]
 
 	switch m.mode {
-	case Normal:
+	case NormalMode:
 		mode = NormalModeStyle.Width(len(text) + 2).Render(text)
-	case Insert:
+	case InsertMode:
 		mode = InsertModeStyle.Width(len(text) + 2).Render(text)
-	case Command:
+	case CommandMode:
 		mode = CommandModeStyle.Width(len(text) + 2).Render(text)
-	case Visual:
+	case VisualMode:
 		mode = VisualModelStyle.Width(len(text) + 2).Render(text)
-	case Search:
+	case SearchMode:
 		mode = SearchModelStyle.Width(len(text) + 2).Render(text)
 	default:
 		mode = NormalModeStyle.Width(len(text) + 2).Render(text)
@@ -61,15 +61,15 @@ func renderCursor(m Model) string {
 	var cursor string
 
 	switch m.mode {
-	case Normal:
+	case NormalMode:
 		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
-	case Insert:
+	case InsertMode:
 		cursor = InsertModeStyle.Width(len(status.String()) + 2).Render(status.String())
-	case Command:
+	case CommandMode:
 		cursor = CommandModeStyle.Width(len(status.String()) + 2).Render(status.String())
-	case Visual:
+	case VisualMode:
 		cursor = VisualModelStyle.Width(len(status.String()) + 2).Render(status.String())
-	case Search:
+	case SearchMode:
 		cursor = SearchModelStyle.Width(len(status.String()) + 2).Render(status.String())
 	default:
 		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())

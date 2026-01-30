@@ -31,7 +31,7 @@ func readFile(fileName string) ([]string, error) {
 }
 
 func main() {
-	fileName := "main.go"
+	fileName := "statuscolumn.go"
 	path, err := filepath.Abs(fileName)
 	if err != nil {
 		log.Fatalf("Could not create filepath: %v\n", err)

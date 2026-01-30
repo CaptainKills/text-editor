@@ -1,5 +1,5 @@
 package main
 
 func RenderCommandLine(m Model) string {
-	return CommandStyle.Render(m.command)
+	return CommandStyle.Width(m.width).Render(m.command)
 }

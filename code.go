@@ -27,9 +27,9 @@ func RenderCode(m Model) string {
 	} else {
 		ui = lipgloss.JoinVertical(
 			lipgloss.Top,
-			CodeStyle.Render(code_pre),
+			CodeStyle.Width(m.width).Render(code_pre),
 			CursorStyle.Render(code_selected),
-			CodeStyle.Render(code_post),
+			CodeStyle.Width(m.width).Render(code_post),
 		)
 	}
 
@@ -65,11 +65,17 @@ func renderSelectedLine(m Model) string {
 		code_selected = " " // Insert space to show cursor
 	}
 
+	// Prevent cursor from widening on a tab
+	if code_selected == "\t" {
+		code_selected = " "
+		code_post = "   " + code_post
+	}
+
 	ui := lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		CodeStyle.Render(code_pre),
 		CursorStyle.Render(code_selected),
-		CodeStyle.UnsetPaddingLeft().Render(code_post),
+		CodeStyle.Width(m.width).UnsetPaddingLeft().Render(code_post),
 	)
 
 	return ui

@@ -9,19 +9,19 @@ import (
 )
 
 const (
-	Normal  int = 0
-	Insert  int = 1
-	Command int = 2
-	Visual  int = 3
-	Search  int = 4
+	NormalMode  int = 0
+	InsertMode  int = 1
+	CommandMode int = 2
+	VisualMode  int = 3
+	SearchMode  int = 4
 )
 
 var ModeString = map[int]string{
-	Normal:  "Normal",
-	Insert:  "Insert",
-	Command: "Command",
-	Visual:  "Visual",
-	Search:  "Search",
+	NormalMode:  "Normal",
+	InsertMode:  "Insert",
+	CommandMode: "Command",
+	VisualMode:  "Visual",
+	SearchMode:  "Search",
 }
 
 type Model struct {
@@ -61,22 +61,22 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		// Return to Normal Mode
 		case "esc":
-			m.mode = Normal
+			m.mode = NormalMode
 			m.command = ""
 		}
 	}
 
 	// Mode Specific Update Handling
 	switch m.mode {
-	case Normal:
+	case NormalMode:
 		cmd = m.normalModeUpdate(msg)
-	case Insert:
+	case InsertMode:
 		cmd = m.insertModeUpdate(msg)
-	case Command:
+	case CommandMode:
 		cmd = m.commandModeUpdate(msg)
-	case Visual:
+	case VisualMode:
 		cmd = m.visualModeUpdate(msg)
-	case Search:
+	case SearchMode:
 		cmd = m.searchModeUpdate(msg)
 	default:
 		cmd = m.normalModeUpdate(msg)
@@ -124,18 +124,18 @@ func (m *Model) normalModeUpdate(msg tea.Msg) tea.Cmd {
 
 		// Mode Keys
 		case "i":
-			m.mode = Insert
+			m.mode = InsertMode
 
 		case ":":
-			m.mode = Command
+			m.mode = CommandMode
 			m.command = ":"
 
 		case "/":
-			m.mode = Search
+			m.mode = SearchMode
 			m.command = "/"
 
 		case "v":
-			m.mode = Visual
+			m.mode = VisualMode
 		}
 	}
 
@@ -158,14 +158,14 @@ func (m *Model) commandModeUpdate(msg tea.Msg) tea.Cmd {
 		switch msg.String() {
 		case "backspace":
 			if len(m.command) <= 1 {
-				m.mode = Normal
+				m.mode = NormalMode
 				m.command = ""
 				break
 			}
 			m.command = m.command[:max(0, len(m.command)-1)]
 
 		case "enter":
-			m.mode = Normal
+			m.mode = NormalMode
 			m.command = ""
 
 		default:
@@ -192,14 +192,14 @@ func (m *Model) searchModeUpdate(msg tea.Msg) tea.Cmd {
 		switch msg.String() {
 		case "backspace":
 			if len(m.command) <= 1 {
-				m.mode = Normal
+				m.mode = NormalMode
 				m.command = ""
 				break
 			}
 			m.command = m.command[:max(0, len(m.command)-1)]
 
 		case "enter":
-			m.mode = Normal
+			m.mode = NormalMode
 			m.command = ""
 
 		default:

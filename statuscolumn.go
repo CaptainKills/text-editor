@@ -19,5 +19,7 @@ func RenderStatusColumn(m Model) string {
 		status.WriteString(strconv.Itoa(0))
 	}
 
-	return StatusColumnStyle.Render(status.String())
+	height := m.height - StatusLineStyle.GetHeight() - CommandModeStyle.GetHeight() - 2
+
+	return StatusColumnStyle.Height(height).Render(status.String())
 }

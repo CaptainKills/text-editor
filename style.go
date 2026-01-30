@@ -14,7 +14,6 @@ var CursorStyle = lipgloss.NewStyle().
 
 // ----- Status Column -----
 var StatusColumnStyle = lipgloss.NewStyle().
-	// PaddingTop(1).
 	PaddingLeft(2).
 	BorderStyle(lipgloss.NormalBorder()).
 	BorderRight(true).
@@ -46,5 +45,5 @@ var SearchModelStyle = NormalModeStyle.
 
 // ----- Command Line -----
 var CommandStyle = lipgloss.NewStyle().
-	BorderStyle(lipgloss.NormalBorder()).
-	BorderBottom(true)
+	Foreground(lipgloss.Color("#FFFFFF")).
+	Background(lipgloss.Color("#222222"))
