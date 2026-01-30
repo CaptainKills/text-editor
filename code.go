@@ -86,9 +86,12 @@ func renderPostCode(m Model) string {
 
 	for index := min(m.cursor.row+1, len(m.buffer)); index < max(0, len(m.buffer)); index++ {
 		code.WriteString(m.buffer[index])
-		if index != len(m.buffer)-1 {
-			code.WriteString("\n")
-		}
+		code.WriteString("\n")
+	}
+
+	// Fill window with empty space
+	for i := 0; i < m.height-3-len(m.buffer); i++ {
+		code.WriteString("\n")
 	}
 
 	return code.String()

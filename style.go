@@ -15,6 +15,8 @@ var CursorStyle = lipgloss.NewStyle().
 // ----- Status Column -----
 var StatusColumnStyle = lipgloss.NewStyle().
 	PaddingLeft(2).
+	Foreground(lipgloss.Color("#FFFFFF")).
+	Background(lipgloss.Color("#000000")).
 	BorderStyle(lipgloss.NormalBorder()).
 	BorderRight(true).
 	AlignHorizontal(lipgloss.Right)
