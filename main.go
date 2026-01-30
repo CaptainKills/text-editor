@@ -42,7 +42,7 @@ func main() {
 		log.Fatalf("Could not read file: %v\n", err)
 	}
 
-	f, err := tea.LogToFile("debug.log", "debug")
+	f, err := tea.LogToFile("debug.log", "")
 	if err != nil {
 		fmt.Println("fatal:", err)
 		os.Exit(1)
