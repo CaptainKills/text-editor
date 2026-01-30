@@ -22,11 +22,11 @@ var StatusColumnStyle = lipgloss.NewStyle().
 
 // ----- Status Line -----
 var StatusLineStyle = lipgloss.NewStyle().
-	BorderStyle(lipgloss.NormalBorder()).
-	BorderTop(true)
+	AlignHorizontal(lipgloss.Left).
+	Foreground(lipgloss.Color("#FFFFFF")).
+	Background(lipgloss.Color("#222222"))
 
 var NormalModeStyle = lipgloss.NewStyle().
-	Width(10).
 	AlignHorizontal(lipgloss.Center).
 	Bold(true).
 	Foreground(lipgloss.Color("#000000")).
@@ -40,6 +40,9 @@ var CommandModeStyle = NormalModeStyle.
 
 var VisualModelStyle = NormalModeStyle.
 	Background(lipgloss.Color("#FF66FF"))
+
+var SearchModelStyle = NormalModeStyle.
+	Background(lipgloss.Color("#E6E600"))
 
 // ----- Command Line -----
 var CommandStyle = lipgloss.NewStyle().

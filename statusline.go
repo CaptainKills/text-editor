@@ -15,9 +15,7 @@ func RenderStatusLine(m Model) string {
 	ui := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		mode,
-		StatusLineStyle.Render("\t"),
-		StatusLineStyle.Render(filepath),
-		StatusLineStyle.Render("\t"),
+		filepath,
 		cursor,
 	)
 
@@ -26,22 +24,20 @@ func RenderStatusLine(m Model) string {
 
 func renderMode(m Model) string {
 	var mode string
+	text := ModeString[m.mode]
 
 	switch m.mode {
 	case Normal:
-		text := "Normal"
 		mode = NormalModeStyle.Width(len(text) + 2).Render(text)
 	case Insert:
-		text := "Insert"
 		mode = InsertModeStyle.Width(len(text) + 2).Render(text)
 	case Command:
-		text := "Command"
 		mode = CommandModeStyle.Width(len(text) + 2).Render(text)
 	case Visual:
-		text := "Visual"
 		mode = VisualModelStyle.Width(len(text) + 2).Render(text)
+	case Search:
+		mode = SearchModelStyle.Width(len(text) + 2).Render(text)
 	default:
-		text := "Normal"
 		mode = NormalModeStyle.Width(len(text) + 2).Render(text)
 	}
 
@@ -49,7 +45,11 @@ func renderMode(m Model) string {
 }
 
 func renderFilePath(m Model) string {
-	return m.fileName
+	width_mode := len(ModeString[m.mode]) + 2
+	width_cursor := len(strconv.Itoa(m.cursor.row)) + len(strconv.Itoa(m.cursor.column)) + 3
+	width := m.width - width_mode - width_cursor
+
+	return StatusLineStyle.Width(width).Render(" " + m.fileName)
 }
 
 func renderCursor(m Model) string {
@@ -69,6 +69,8 @@ func renderCursor(m Model) string {
 		cursor = CommandModeStyle.Width(len(status.String()) + 2).Render(status.String())
 	case Visual:
 		cursor = VisualModelStyle.Width(len(status.String()) + 2).Render(status.String())
+	case Search:
+		cursor = SearchModelStyle.Width(len(status.String()) + 2).Render(status.String())
 	default:
 		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
 	}
