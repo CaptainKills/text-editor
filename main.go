@@ -1,36 +1,13 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	tea "charm.land/bubbletea/v2"
 )
-
-func readFile(fileName string) ([]string, error) {
-	inputFile, err := os.Open(fileName)
-	if err != nil {
-		return []string{}, err
-	}
-	defer inputFile.Close()
-
-	scanner := bufio.NewScanner(inputFile)
-	if err := scanner.Err(); err != nil {
-		return []string{}, err
-	}
-
-	var lines []string
-	for scanner.Scan() {
-		line := strings.ReplaceAll(scanner.Text(), "\t", "    ")
-		lines = append(lines, line)
-	}
-
-	return lines, nil
-}
 
 func main() {
 	fileName := "main.go"
@@ -39,7 +16,7 @@ func main() {
 		log.Fatalf("Could not create filepath: %v\n", err)
 	}
 
-	lines, err := readFile(path)
+	lines, err := ReadFile(path)
 	if err != nil {
 		log.Fatalf("Could not read file: %v\n", err)
 	}

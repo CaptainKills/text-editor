@@ -55,10 +55,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch msg.String() {
-		// Program Exit
-		case "ctrl+c", "q":
-			return m, tea.Quit
-
 		// Return to Normal Mode
 		case "esc":
 			m.mode = NormalMode
@@ -159,6 +155,8 @@ func (m *Model) insertModeUpdate(msg tea.Msg) tea.Cmd {
 }
 
 func (m *Model) commandModeUpdate(msg tea.Msg) tea.Cmd {
+	var cmd tea.Cmd
+
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
@@ -172,14 +170,21 @@ func (m *Model) commandModeUpdate(msg tea.Msg) tea.Cmd {
 
 		case "enter":
 			m.mode = NormalMode
-			m.command = ""
+
+			switch m.command {
+			case ":w":
+				WriteFile(m.fileName, m.buffer)
+				m.command = fmt.Sprintf("'%s' written to disk", m.fileName)
+			case ":q":
+				cmd = tea.Quit
+			}
 
 		default:
 			m.command += msg.String()
 		}
 	}
 
-	return nil
+	return cmd
 }
 
 func (m *Model) visualModeUpdate(msg tea.Msg) tea.Cmd {

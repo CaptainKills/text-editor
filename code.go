@@ -22,7 +22,7 @@ func RenderCode(m Model) string {
 	}
 
 	code_layer := lipgloss.NewLayer(
-		CodeStyle.Width(width).Render(builder.String()),
+		CodeStyle.Width(width).Height(height).Render(builder.String()),
 	)
 
 	highlight_layer := lipgloss.NewLayer(
