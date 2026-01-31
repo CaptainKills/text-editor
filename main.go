@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "charm.land/bubbletea/v2"
 )
 
 func readFile(fileName string) ([]string, error) {
@@ -51,7 +51,7 @@ func main() {
 
 	m := Model{fileName: path, buffer: lines, log: f}
 
-	p := tea.NewProgram(m, tea.WithAltScreen())
+	p := tea.NewProgram(m)
 	if _, err := p.Run(); err != nil {
 		log.Fatalf("There's been an error: %v", err)
 	}

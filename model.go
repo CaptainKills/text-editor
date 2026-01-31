@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
 )
 
 const (
@@ -87,7 +87,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-func (m Model) View() string {
+func (m Model) View() tea.View {
 	ui := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		RenderStatusColumn(m),
@@ -102,7 +102,10 @@ func (m Model) View() string {
 	)
 
 	// Send the UI for rendering
-	return ui
+	view := tea.NewView(ui)
+	view.AltScreen = true
+
+	return view
 }
 
 func (m *Model) normalModeUpdate(msg tea.Msg) tea.Cmd {
