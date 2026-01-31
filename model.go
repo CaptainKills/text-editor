@@ -88,6 +88,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() tea.View {
+	// Compose the UI elements
 	ui := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		RenderStatusColumn(m),
@@ -104,6 +105,7 @@ func (m Model) View() tea.View {
 	// Send the UI for rendering
 	view := tea.NewView(ui)
 	view.AltScreen = true
+	view.Cursor = m.cursor.GetCursor()
 
 	return view
 }
@@ -117,7 +119,8 @@ func (m *Model) normalModeUpdate(msg tea.Msg) tea.Cmd {
 			m.cursor.MoveLeft(m.buffer)
 
 		case "j", "down":
-			m.cursor.MoveDown(m.buffer)
+			height := m.height - 3
+			m.cursor.MoveDown(m.buffer, height)
 
 		case "k", "up":
 			m.cursor.MoveUp(m.buffer)

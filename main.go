@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	tea "charm.land/bubbletea/v2"
 )
@@ -24,14 +25,15 @@ func readFile(fileName string) ([]string, error) {
 
 	var lines []string
 	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+		line := strings.ReplaceAll(scanner.Text(), "\t", "    ")
+		lines = append(lines, line)
 	}
 
 	return lines, nil
 }
 
 func main() {
-	fileName := "statuscolumn.go"
+	fileName := "main.go"
 	path, err := filepath.Abs(fileName)
 	if err != nil {
 		log.Fatalf("Could not create filepath: %v\n", err)

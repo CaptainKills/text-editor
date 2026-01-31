@@ -9,8 +9,9 @@ var CodeStyle = lipgloss.NewStyle().
 	Background(lipgloss.Color("#000000"))
 
 var CursorStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#000000")).
-	Background(lipgloss.Color("#FFFFFF"))
+	PaddingLeft(2).
+	Foreground(lipgloss.Color("#FFFFFF")).
+	Background(lipgloss.Color("#222222"))
 
 // ----- Status Column -----
 var StatusColumnStyle = lipgloss.NewStyle().
@@ -20,6 +21,9 @@ var StatusColumnStyle = lipgloss.NewStyle().
 	BorderStyle(lipgloss.NormalBorder()).
 	BorderRight(true).
 	AlignHorizontal(lipgloss.Right)
+
+var HighlightStyle = StatusColumnStyle.
+	Background(lipgloss.Color("#222222"))
 
 // ----- Status Line -----
 var StatusLineStyle = lipgloss.NewStyle().
@@ -46,6 +50,6 @@ var SearchModelStyle = NormalModeStyle.
 	Background(lipgloss.Color("#E6E600"))
 
 // ----- Command Line -----
-var CommandStyle = lipgloss.NewStyle().
+var CommandLineStyle = lipgloss.NewStyle().
 	Foreground(lipgloss.Color("#FFFFFF")).
 	Background(lipgloss.Color("#222222"))

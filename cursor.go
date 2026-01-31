@@ -1,8 +1,18 @@
 package main
 
+import tea "charm.land/bubbletea/v2"
+
 type Cursor struct {
 	row    int
 	column int
+	offset int
+}
+
+func (c *Cursor) GetCursor() *tea.Cursor {
+	return &tea.Cursor{
+		Position: tea.Position{X: c.column + 7, Y: c.row - c.offset},
+		Blink:    true,
+	}
 }
 
 func (c *Cursor) MoveUp(buffer []string) {
@@ -23,9 +33,14 @@ func (c *Cursor) MoveUp(buffer []string) {
 	next_col_index := c.column
 
 	c.column = min(next_col_index, max_col_index)
+
+	// Update Offset
+	if c.row < c.offset {
+		c.offset = c.row
+	}
 }
 
-func (c *Cursor) MoveDown(buffer []string) {
+func (c *Cursor) MoveDown(buffer []string, height int) {
 	if len(buffer) == 0 {
 		c.row = 0
 		c.column = 0
@@ -43,6 +58,11 @@ func (c *Cursor) MoveDown(buffer []string) {
 	next_col_index := c.column
 
 	c.column = min(next_col_index, max_col_index)
+
+	// Update Offset
+	if c.row >= c.offset+height {
+		c.offset = c.row - height + 1
+	}
 }
 
 func (c *Cursor) MoveLeft(buffer []string) {

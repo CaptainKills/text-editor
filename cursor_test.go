@@ -79,7 +79,7 @@ func TestCursorMoveUp(t *testing.T) {
 func TestCursorMoveDown(t *testing.T) {
 	t.Run("Row Available", func(t *testing.T) {
 		c := Cursor{row: 0, column: 0}
-		c.MoveDown(text)
+		c.MoveDown(text, len(text))
 
 		want := Cursor{row: 1, column: 0}
 
@@ -92,7 +92,7 @@ func TestCursorMoveDown(t *testing.T) {
 		c := Cursor{row: 0, column: 0}
 
 		for i := c.row; i < len(text); i++ {
-			c.MoveDown(text)
+			c.MoveDown(text, len(text))
 		}
 
 		want := Cursor{row: len(text) - 1, column: 0}
@@ -104,7 +104,7 @@ func TestCursorMoveDown(t *testing.T) {
 
 	t.Run("Column Available", func(t *testing.T) {
 		c := Cursor{row: 0, column: 5}
-		c.MoveDown(text)
+		c.MoveDown(text, len(text))
 
 		want := Cursor{row: 1, column: 5}
 
@@ -115,7 +115,7 @@ func TestCursorMoveDown(t *testing.T) {
 
 	t.Run("Column Unavailable", func(t *testing.T) {
 		c := Cursor{row: 1, column: len(text[1]) - 1}
-		c.MoveDown(text)
+		c.MoveDown(text, len(text))
 
 		want := Cursor{row: 2, column: len(text[2]) - 1}
 
@@ -131,7 +131,7 @@ func TestCursorMoveDown(t *testing.T) {
 		}
 
 		c := Cursor{row: 0, column: 0}
-		c.MoveDown(text)
+		c.MoveDown(text, len(text))
 
 		want := Cursor{row: 1, column: len(text[1])}
 
@@ -235,7 +235,7 @@ func TestCursorEmptyFile(t *testing.T) {
 
 	t.Run("Move Down", func(t *testing.T) {
 		c := Cursor{row: 0, column: 0}
-		c.MoveDown(text)
+		c.MoveDown(text, len(text))
 
 		want := Cursor{row: 0, column: 0}
 

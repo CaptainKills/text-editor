@@ -53,26 +53,26 @@ func renderFilePath(m Model) string {
 }
 
 func renderCursor(m Model) string {
-	status := strings.Builder{}
-	status.WriteString(strconv.Itoa(m.cursor.row))
-	status.WriteString(":")
-	status.WriteString(strconv.Itoa(m.cursor.column))
+	builder := strings.Builder{}
+	builder.WriteString(strconv.Itoa(m.cursor.row))
+	builder.WriteString(":")
+	builder.WriteString(strconv.Itoa(m.cursor.column))
 
 	var cursor string
 
 	switch m.mode {
 	case NormalMode:
-		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = NormalModeStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	case InsertMode:
-		cursor = InsertModeStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = InsertModeStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	case CommandMode:
-		cursor = CommandModeStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = CommandModeStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	case VisualMode:
-		cursor = VisualModelStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = VisualModelStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	case SearchMode:
-		cursor = SearchModelStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = SearchModelStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	default:
-		cursor = NormalModeStyle.Width(len(status.String()) + 2).Render(status.String())
+		cursor = NormalModeStyle.Width(len(builder.String()) + 2).Render(builder.String())
 	}
 
 	return cursor
